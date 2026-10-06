@@ -15,6 +15,14 @@
   };
   gfx.hasImage = (key) => !!W.assets.get(key);
 
+  /** Draw frame i of n from a horizontal sprite strip, bottom-centred at (x,y) with height h. Returns false if the strip is not available. */
+  gfx.frame = function (g, key, n, i, x, y, h, flip) {
+    const im = W.assets.get(key); if (!im) return false;
+    const fw = im.width / n, w = h * fw / im.height;
+    g.save(); g.translate(x, y); if (flip) g.scale(-1, 1);
+    g.drawImage(im, Math.floor(i) % n * fw, 0, fw, im.height, -w / 2, -h, w, h);
+    g.restore(); return true;
+  };
   gfx.rect = (g, x, y, w, h, c) => { g.fillStyle = c; g.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); };
 
   gfx.sky = function (g, top, bot, h) {
@@ -67,6 +75,13 @@
   };
 
   gfx.portrait = function (g, lord, x, y, w, h) {
+    const pim = W.assets.get('portrait_' + lord.id);
+    if (pim) {
+      const sc = Math.max(w / pim.width, h / pim.height), sw = w / sc, sh = h / sc;
+      g.drawImage(pim, (pim.width - sw) / 2, (pim.height - sh) * 0.1, sw, sh, x, y, w, h);
+      g.strokeStyle = '#000'; g.lineWidth = 2; g.strokeRect(x, y, w, h);
+      return;
+    }
     const idx = Math.max(0, W.baseRuleset.lords.findIndex((l) => l.id === lord.id));
     gfx.rect(g, x, y, w, h, '#1b2a44'); gfx.rect(g, x, y + h * 0.72, w, h * 0.28, '#2a3a24');
     const cx = x + w / 2;
@@ -116,6 +131,10 @@
 
   gfx.footman = function (g, x, y, s, o) {
     o = o || {}; const f = o.facing || 1;
+    if (o.lordId) {
+      const attacking = o.attack != null, fr = attacking ? 4 + (o.attack > 0 ? 1 : 0) : Math.floor(o.walk || 0) % 4;
+      if (gfx.frame(g, (o.knight ? 'knightfoot_' : 'soldier_') + o.lordId, 6, fr, x, y + 16 * s, (o.knight ? 52 : 46) * s / 1.15, f < 0)) return;
+    }
     g.save(); g.translate(x, y); g.scale(f * s, s);
     const st = o.step || 0;
     g.fillStyle = '#3a2a1a'; g.fillRect(-4, 6, 3, 10 + st); g.fillRect(1, 6, 3, 10 - st);

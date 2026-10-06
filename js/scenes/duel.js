@@ -64,7 +64,12 @@
     onKey() {}
     pick2(i) { this.pick(i); }
     finish() { this.done({ won: this.hpFoe <= 0, hpLeft: this.hpMe }); }
-    figure(g, x, facing, pose, col, hit) {
+    figure(g, x, facing, pose, col, hit, id, lose, win) {
+      if (id) {
+        const fr = lose ? 4 : win ? 5 : hit ? 3 : pose;
+        const lunge = this.state === 'anim' && !hit && !lose ? 14 : 0;
+        if (W.gfx.frame(g, 'fencer_' + id, 6, fr, x + facing * lunge, 340, 200, facing < 0)) return;
+      }
       g.save(); g.translate(x, 290); g.scale(facing, 1);
       if (hit) g.translate(-6, 0);
       g.fillStyle = '#2a1a10'; g.fillRect(-14, 0, 10, 50); g.fillRect(4, 0, 10, 50);
@@ -78,8 +83,9 @@
     draw(g) {
       W.gfx.bg(g, 'bg_duel', (g) => W.gfx.duelBg(g, this.t));
       const me = this.pose.me, foe = this.pose.foe;
-      this.figure(g, 190, 1, me, this.me.color, this.state === 'anim' && this.mode === 'defend' && this.msg === '✖');
-      this.figure(g, 450, -1, foe, this.opts.foe.color || '#6a1010', this.state === 'anim' && this.mode === 'attack' && this.msg === '✔');
+      const over = this.hpMe <= 0 || this.hpFoe <= 0;
+      this.figure(g, 190, 1, me, this.me.color, this.state === 'anim' && this.mode === 'defend' && this.msg === '✖', this.me.id, this.hpMe <= 0, this.hpFoe <= 0);
+      this.figure(g, 450, -1, foe, this.opts.foe.color || '#6a1010', this.state === 'anim' && this.mode === 'attack' && this.msg === '✔', this.foe.id, this.hpFoe <= 0, this.hpMe <= 0);
       if (this.flash > 0) { g.fillStyle = 'rgba(255,255,255,' + this.flash + ')'; g.fillRect(0, 0, 640, 400); }
       const bar = (x, v, m, name) => { g.fillStyle = '#000a'; g.fillRect(x, 14, 220, 30); g.fillStyle = '#400'; g.fillRect(x + 4, 28, 212, 12); g.fillStyle = '#d33'; g.fillRect(x + 4, 28, 212 * Math.max(0, v) / m, 12); E.text(name, x + 6, 24, { font: 'bold 12px Georgia, serif', color: '#f5d77a' }); };
       bar(14, this.hpMe, this.maxMe, this.me.name); bar(406, this.hpFoe, this.maxFoe, this.foe.name);

@@ -25,7 +25,7 @@
     ownerText(tr) { return !tr.owner ? t('map.not_owned') : tr.owner === this.s.playerId ? t('map.owned_you') : t('map.owned_by', { lord: this.s.lords[tr.owner].name }); }
     draw(g) {
       W.gfx.bg(g, 'bg_map', (g) => W.gfx.parchment(g));
-      const key = this.hover + '|' + this.s.turn + '|' + JSON.stringify(Object.values(this.s.terr).map((x) => x.owner));
+      const key = (W.GameMap.textures(400, 400) ? 'T' : 'F') + this.hover + '|' + this.s.turn + '|' + JSON.stringify(Object.values(this.s.terr).map((x) => x.owner));
       if (this.dirty || key !== this.lastKey) {
         const dim = this.opts.mode === 'pick' && this.opts.valid ? (id) => !this.opts.valid(id) : null;
         W.GameMap.render(this.s, { highlight: this.hover, dim }); this.dirty = false; this.lastKey = key;

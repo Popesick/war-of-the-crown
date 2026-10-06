@@ -50,5 +50,5 @@ Neue Karte: anderes `map.outline`/`territories` im Ruleset. Siehe `js/mods/exten
 `analysis/` enthält die ADF-Werkzeuge. Aus dem Hunk-Executable wurden nur Regeln und Spielablauf abgeleitet. Siehe `docs/analysis.md`.
 
 ## Grafiken (Stand)
-Fertig in `assets/img/`: bg_title, bg_joust, bg_siege, bg_battle, bg_duel, bg_castle_hall, bg_end_win, bg_end_lose, bg_love, bg_tournament (640x400).
-Noch prozedural (Fallback): bg_map, bg_story. Prompts: `docs/image-prompts.md`.
+Fertig in `assets/img/`: alle Hintergründe (640x400), Lord-Porträts (`portrait_<lord>`), Turnierreiter von vorn (`rider_front_<lord>`), Soldaten und Ritter zu Fuß (`soldier_`/`knightfoot_<lord>`, 6 Frames), Schwertkämpfer (`fencer_<lord>`, 6 Frames), eigenes Pferd in Ich-Perspektive (`pov_<lord>`, 3 Frames, nur sächsische Lords), Kartentexturen `map_sea`/`map_land` (400x400).
+Fehlt eine Datei, greift die prozedurale Zeichnung. Sprites entstehen aus ChatGPT-Sheets auf Magenta-Hintergrund mit roter Stoffmarkierung; `python3 tools/build_sprites.py <sheet-ordner> [art]` schneidet, key-t und färbt je Lord um (siehe `docs/image-prompts.md`).

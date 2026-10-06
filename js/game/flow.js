@@ -233,7 +233,7 @@
       if (!id) { await ui.say(t('raid.abandon')); return false; }
       const tr = s.terr[id], lord = s.lords[tr.owner];
       await ui.say(t('raid.go', { lord: lord.name }));
-      const r = await E.run(new W.scenes.DuelScene({ me: s.player, foe: { name: lord.name.split(' ')[0], sword: lord.sword, color: lord.color } }));
+      const r = await E.run(new W.scenes.DuelScene({ me: s.player, foe: { id: lord.id, name: lord.name.split(' ')[0], sword: lord.sword, color: lord.color } }));
       if (r.won) {
         const loot = U.clamp(Math.floor(lord.gold * rs.raid.lootFraction), rs.raid.minLoot, 160);
         lord.gold = Math.max(0, lord.gold - loot); s.player.gold += loot; W.audio.sfx('coin');

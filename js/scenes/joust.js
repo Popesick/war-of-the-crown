@@ -23,7 +23,7 @@
       if (k === 'Enter') this.go();
     }
     // opponent geometry at progress p (0..1)
-    geo(p) { const k = 0.3 + 1.9 * p; return { k, gx: 320, gy: 212 + 150 * p, sx: 320 - 14 * k, sy: 212 + 150 * p - 86 * k }; }
+    geo(p) { const k = 0.3 + 1.9 * p; const sp = !!W.assets.get('rider_front_' + this.opp.id); return { k, gx: 320, gy: 212 + 150 * p, sx: 320 + (sp ? 32 : -14) * k, sy: 212 + 150 * p - (sp ? 93 : 86) * k }; }
     update(dt) {
       this.shake = Math.max(0, this.shake - dt * 4);
       this.fx = this.fx.filter((f) => (f.life -= dt) > 0); this.fx.forEach((f) => { f.x += f.vx * dt; f.y += f.vy * dt; f.vy += 300 * dt; });
@@ -88,6 +88,10 @@
     }
     drawKnight(g, p, dead) {
       const gm = this.geo(p), k = gm.k; const c = this.opp.color;
+      {
+        const fr = dead ? (this.fall < 0.6 ? 2 : 3) : (this.phase === 'charge' ? Math.floor(this.t * 9) % 2 : 0);
+        if (W.gfx.frame(g, 'rider_front_' + this.opp.id, 4, fr, gm.gx, gm.gy + 6 * k, 138 * k)) return;
+      }
       g.save(); g.translate(gm.gx, gm.gy); g.scale(k, k);
       if (dead) { g.rotate(Math.min(1.4, this.fall * 2.2)); g.translate(0, this.fall * 40); }
       // horse
@@ -115,6 +119,9 @@
       g.strokeStyle = '#7a5a3a'; g.lineWidth = 3; g.beginPath(); g.moveTo(316, 210); g.lineTo(240, 400); g.stroke();
       const p = this.phase === 'charge' ? this.p : this.phase === 'result' ? 1 : 0;
       if (this.phase !== 'ready' || true) this.drawKnight(g, this.phase === 'ready' ? 0.02 : p, this.result.unhorsedOpp && this.phase === 'result');
+      // own horse (point of view) bobbing with the gallop
+      { const ph = this.phase === 'charge' ? [0, 1, 2, 1][Math.floor(this.t * 8) % 4] : (this.phase === 'result' ? 0 : Math.floor(this.t * 1.2) % 2);
+        W.gfx.frame(g, 'pov_' + this.me.id, 3, ph, 320, 408 + (this.phase === 'charge' ? Math.sin(this.t * 16) * 3 : 0), 220); }
       // own lance + reticle
       const ax = this.aim.x, ay = this.aim.y;
       g.strokeStyle = '#d9c9a0'; g.lineWidth = 7; g.beginPath(); g.moveTo(620, 420); g.lineTo(ax + 6, ay + 6); g.stroke();

@@ -16,3 +16,16 @@ Stil für alle: "hand-painted medieval illuminated manuscript meets 16-bit pixel
 | bg_tournament | Medieval tournament grounds, pavilions with pennants, banners, daytime |
 | bg_end_win | Knight crowned king in a throne room, golden light |
 | bg_end_lose | Ruined castle at dusk, broken banner, dark clouds |
+
+## Sprite-Sheets (tools/build_sprites.py)
+Alle auf reinem Magenta (#FF00FF), Stoff in reinem Rot (wird je Lord umgefärbt), Seitenansicht nach rechts, gleiche Größe/Grundlinie pro Zelle.
+
+| Sheet | Raster | Inhalt |
+|---|---|---|
+| sheet_portraits | 3x3 | 9 Lords, Reihenfolge wie im Ruleset (kein Keying) |
+| sheet_rider_side | 2x2 | Reiter Seitenansicht |
+| sheet_rider_front | 2x2 | Gegner von vorn: Ruhe, Galopp 1/2, Sturz |
+| sheet_soldier | 4x3 | Fußsoldat Lauf x4, Ritter Lauf x4, Angriff x2 + x2 |
+| sheet_fencer | 3x2 | Wache, Ausholen, Stoß, Parade, Treffer, besiegt |
+| sheet_pov | 3x1 | Pferdekopf von hinten, 3 Galoppphasen |
+| map_sea / map_land | 1:1 | Texturen für die Karte |

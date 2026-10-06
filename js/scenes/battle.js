@@ -50,7 +50,8 @@
       items.forEach((k, i) => {
         const row = i % 3, colN = Math.floor(i / 3);
         const x = base - facing * (colN * 22) + facing * this.clash * 70, y = 285 + row * 28 - colN % 2 * 4;
-        W.gfx.footman(g, x, y, 1.15, { facing, color: col, color2: '#ddd', knight: k, step: Math.round(Math.sin(this.t * 6 + i)), swing: -0.9 + (this.phase === 'clash' ? Math.sin(this.t * 14 + i) * 0.9 : 0) });
+        const lid = army.lord ? army.lord.id : 'edmund';
+        W.gfx.footman(g, x, y, 1.15, { lordId: lid, walk: this.t * 7 + i, attack: this.phase === 'clash' ? Math.sin(this.t * 12 + i) : null, facing, color: col, color2: '#ddd', knight: k, step: Math.round(Math.sin(this.t * 6 + i)), swing: -0.9 + (this.phase === 'clash' ? Math.sin(this.t * 14 + i) * 0.9 : 0) });
       });
     }
     draw(g) {

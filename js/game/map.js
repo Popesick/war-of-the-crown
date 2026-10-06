@@ -61,6 +61,16 @@
 
   function hex(c) { return [parseInt(c.substr(1, 2), 16), parseInt(c.substr(3, 2), 16), parseInt(c.substr(5, 2), 16)]; }
 
+  /** pixel data of the painted sea / land textures (null until both images are loaded) */
+  GameMap.textures = function (w, h) {
+    if (GameMap._tex) return GameMap._tex;
+    const sea = W.assets.get('map_sea'), land = W.assets.get('map_land');
+    if ((!sea && !W.assets.failed('map_sea')) || (!land && !W.assets.failed('map_land'))) return null; // still loading
+    if (!sea && !land) return null;
+    const grab = (im) => { const c = Object.assign(document.createElement('canvas'), { width: w, height: h }), x = c.getContext('2d'); x.drawImage(im, 0, 0, w, h); return x.getImageData(0, 0, w, h).data; };
+    return (GameMap._tex = { sea: sea && grab(sea), land: land && grab(land) });
+  };
+
   /** render the 400x400 map into an offscreen canvas. opts: highlight (id), dim (fn id->bool) */
   GameMap.render = function (state, opts) {
     opts = opts || {};
@@ -68,12 +78,14 @@
     const cv = GameMap.canvas || (GameMap.canvas = Object.assign(document.createElement('canvas'), { width: w, height: h }));
     const g = cv.getContext('2d');
     const img = g.createImageData(w, h), d = img.data;
+    const tex = GameMap.textures(w, h);
     const colors = rs.territories.map((t) => {
       const tr = state.terr[t.id]; const own = tr.owner ? state.lords[tr.owner].color : '#b8a874';
       return hex(own);
     });
     for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
       const o = (y * w + x) * 4, id = ids[y * w + x];
+      if (id === 255 && tex && tex.sea) { d[o] = tex.sea[o]; d[o + 1] = tex.sea[o + 1]; d[o + 2] = tex.sea[o + 2]; d[o + 3] = 255; continue; }
       if (id === 255) { // sea with gentle wave pattern
         const v = Math.sin(x * 0.2 + y * 0.12) * Math.sin(y * 0.17 - x * 0.05);
         d[o] = 28 + v * 6; d[o + 1] = 62 + v * 8; d[o + 2] = 112 + v * 10; d[o + 3] = 255; continue;
@@ -84,8 +96,14 @@
       let f = 0.78 + n * 0.1;
       if (tr.owner) f = 0.62 + n * 0.08 + 0.18; // owned land more saturated
       let [r, gg, b] = colors[id];
+      if (tex && tex.land) { // painted terrain tinted by the owner's colour
+        const tr0 = tex.land[o], tg0 = tex.land[o + 1], tb0 = tex.land[o + 2], lum = (tr0 * 0.3 + tg0 * 0.59 + tb0 * 0.11) / 150;
+        const m = tr.owner ? 0.5 : 0.12;
+        r = tr0 * (1 - m) + r * lum * m * 1.3; gg = tg0 * (1 - m) + gg * lum * m * 1.3; b = tb0 * (1 - m) + b * lum * m * 1.3;
+      } else {
       const base = tr.owner ? 0.35 : 0.0;
       r = r * (0.5 + base) * f + 70 * (1 - base); gg = gg * (0.5 + base) * f + 80 * (1 - base); b = b * (0.5 + base) * f + 30 * (1 - base);
+      }
       if (opts.dim && opts.dim(tid)) { r *= 0.45; gg *= 0.45; b *= 0.45; }
       if (opts.highlight === tid) { r = Math.min(255, r * 1.35 + 30); gg = Math.min(255, gg * 1.35 + 30); b = Math.min(255, b * 1.2 + 20); }
       // borders

@@ -20,6 +20,7 @@
       }
       return e.ok ? e.img : null;
     },
+    failed: (key) => !!(images[key] && images[key].failed),
     preload(keys) { keys.forEach((k) => assets.get(k)); },
   };
   W.assets = assets;
