@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>War of the Crown</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="frame">
+  <div id="stage">
+    <canvas id="screen" width="640" height="400"></canvas>
+    <div id="ui"></div>
+    <button id="gear" title="Menu (Esc)">&#9881;</button>
+  </div>
+</div>
+<noscript>War of the Crown benoetigt JavaScript.</noscript>
+
+<!-- core -->
+<script src="js/core/util.js"></script>
+<script src="js/core/i18n.js"></script>
+<script src="js/core/settings.js"></script>
+<script src="js/core/audio.js"></script>
+<script src="js/core/speech.js"></script>
+<script src="js/core/assets.js"></script>
+<script src="js/core/engine.js"></script>
+<script src="js/core/ui.js"></script>
+<script src="js/core/mods.js"></script>
+<!-- data (ruleset + texts) -->
+<script src="js/data/ruleset.js"></script>
+<script src="js/data/texts.js"></script>
+<!-- game logic -->
+<script src="js/game/state.js"></script>
+<script src="js/game/map.js"></script>
+<script src="js/game/combat.js"></script>
+<script src="js/game/ai.js"></script>
+<!-- procedural graphics (fallback until real art is dropped in assets/img) -->
+<script src="js/gfx/draw.js"></script>
+<!-- scenes -->
+<script src="js/scenes/title.js"></script>
+<script src="js/scenes/mapscene.js"></script>
+<script src="js/scenes/joust.js"></script>
+<script src="js/scenes/duel.js"></script>
+<script src="js/scenes/siege.js"></script>
+<script src="js/scenes/battle.js"></script>
+<script src="js/scenes/story.js"></script>
+<!-- game flow -->
+<script src="js/game/flow.js"></script>
+<!-- optional extensions: add <script> tags below -->
+<script src="js/mods/extended.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

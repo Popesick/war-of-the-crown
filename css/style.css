@@ -1,0 +1,31 @@
+:root{--parch:#e8d5a3;--parch2:#cfb67a;--ink:#2a1a0a;--gold:#d8a526;--red:#8a1c1c;--navy:#10203f}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0b0905;color:var(--ink);font-family:Georgia,"Times New Roman",serif}
+#frame{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+#stage{position:relative;width:min(100vw,calc(100vh*1.6));aspect-ratio:8/5;background:#000;box-shadow:0 0 40px #000}
+#screen{width:100%;height:100%;display:block;image-rendering:pixelated;image-rendering:crisp-edges;cursor:default}
+#ui{position:absolute;inset:0;pointer-events:none;font-size:calc(var(--s,1)*16px)}
+#gear{position:absolute;top:6px;right:6px;width:30px;height:30px;border:2px solid var(--gold);background:#1b1409cc;color:var(--gold);font-size:18px;border-radius:4px;cursor:pointer;z-index:20;line-height:1}
+#gear:hover{background:#3a2a10}
+.panel{position:absolute;pointer-events:auto;background:linear-gradient(#ecdcae,#d6bf86);border:4px double #5a3a12;border-radius:6px;box-shadow:0 6px 24px #000a, inset 0 0 30px #8a5a1a55;padding:.8em 1.1em;max-width:88%;color:var(--ink)}
+.panel h2{margin:.1em 0 .5em;font-size:1.15em;text-align:center;letter-spacing:.06em;text-transform:uppercase;color:var(--red);border-bottom:1px solid #5a3a1255;padding-bottom:.3em}
+.panel p{margin:.4em 0;line-height:1.35}
+.dialog{left:50%;bottom:5%;transform:translateX(-50%);width:80%;min-height:3.2em}
+.dialog .hint{font-size:.72em;text-align:right;opacity:.65;margin-top:.5em}
+.center{left:50%;top:50%;transform:translate(-50%,-50%);min-width:45%}
+.btn{display:block;width:100%;margin:.28em 0;padding:.45em .7em;font:inherit;color:var(--ink);background:linear-gradient(#f3e6bf,#d0b475);border:2px solid #5a3a12;border-radius:4px;cursor:pointer;text-align:left}
+.btn:hover:not([disabled]),.btn:focus{background:linear-gradient(#fff3c8,#e6c97d);outline:none;border-color:var(--red)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn small{opacity:.7;float:right;margin-left:1em}
+.row{display:flex;align-items:center;gap:.6em;margin:.4em 0}
+.row label{flex:0 0 38%}
+.row input[type=range]{flex:1}
+.row input[type=checkbox]{transform:scale(1.3)}
+.row .val{width:2.6em;text-align:right;font-variant-numeric:tabular-nums}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.4em .8em}
+.stat{display:flex;justify-content:space-between;border-bottom:1px dotted #5a3a1266;padding:.12em 0}
+.stepper{display:flex;align-items:center;gap:.4em}
+.stepper button{width:1.8em;font:inherit;border:2px solid #5a3a12;background:#f0deaa;border-radius:3px;cursor:pointer}
+.tabs{display:flex;gap:.3em;margin-bottom:.5em}
+.tabs .btn{text-align:center;margin:0}
+select{font:inherit;padding:.2em;max-width:60%}
