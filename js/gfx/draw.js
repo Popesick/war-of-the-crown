@@ -23,6 +23,8 @@
     g.drawImage(im, Math.floor(i) % n * fw, 0, fw, im.height, -w / 2, -h, w, h);
     g.restore(); return true;
   };
+  /** Draw a single sprite bottom-centred at (x,y) with height h. */
+  gfx.sprite = function (g, key, x, y, h) { return gfx.frame(g, key, 1, 0, x, y, h); };
   gfx.rect = (g, x, y, w, h, c) => { g.fillStyle = c; g.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); };
 
   gfx.sky = function (g, top, bot, h) {

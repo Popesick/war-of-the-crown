@@ -29,3 +29,4 @@ Alle auf reinem Magenta (#FF00FF), Stoff in reinem Rot (wird je Lord umgefärbt)
 | sheet_fencer | 3x2 | Wache, Ausholen, Stoß, Parade, Treffer, besiegt |
 | sheet_pov | 3x1 | Pferdekopf von hinten, 3 Galoppphasen |
 | map_sea / map_land | 1:1 | Texturen für die Karte |
+| sheet_siege | 3x2 | Katapult gespannt/schwingend/entspannt, Stein, Staubwolke, Trümmerhaufen |
